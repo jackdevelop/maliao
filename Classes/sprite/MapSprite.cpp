@@ -6,48 +6,67 @@
 
 
 
-MapSprite::MapSprite(){
+MapSprite::MapSprite() :m_tmx(NULL)
+, cloudLayer(NULL)
+, blockLayer(NULL)
+, pipeLayer(NULL)
+, landLayer(NULL)
+, trapLayer(NULL)
+, objectLayer(NULL)
+, coinLayer(NULL)
+, flagpoleLayer(NULL)
+{
 	
 }
 
 
+
 MapSprite::~MapSprite(){
-
-
+	delete cloudLayer;
+	delete blockLayer;
+	delete pipeLayer;
+	delete landLayer;
+	delete trapLayer;
+	delete objectLayer;
+	delete coinLayer;
+	delete flagpoleLayer;
 }
+
+
+
 
 
 
 void  MapSprite::init(){
-
 	int lv = Global::getInstance()->getCurrentLevel();
 	char temp[50] = { 0 };
 	sprintf(temp, "fight/map/MarioMap%d.tmx", lv);
 
-
-	
 	//解析地图数据
-	TMXTiledMap * tmx = TMXTiledMap::create(temp);
-	m_tmx = tmx;
-	m_mapSize = tmx->getMapSize();
-	m_titleSize = tmx->getTileSize();
-	cloudLayer = tmx->layerNamed("cloud");
-	blockLayer = tmx->layerNamed("block");
-	pipeLayer = tmx->layerNamed("pipe");
-	landLayer = tmx->layerNamed("land");
-	trapLayer = tmx->layerNamed("trap");
-	coinLayer = tmx->layerNamed("coin");
-	flagpoleLayer = tmx->layerNamed("flagpole");
-	objectLayer = tmx->objectGroupNamed("objects");
-	this->initObjects();
-
-
+	m_tmx = TMXTiledMap::create(temp);
+	m_mapSize = m_tmx->getMapSize();
+	m_titleSize = m_tmx->getTileSize();
+	m_totalMapSize = CCSizeMake(m_mapSize.width * m_titleSize.width, m_mapSize.height * m_titleSize.height);
+	cloudLayer = m_tmx->layerNamed("cloud");
+	blockLayer = m_tmx->layerNamed("block");
+	pipeLayer = m_tmx->layerNamed("pipe");
+	landLayer = m_tmx->layerNamed("land");
+	trapLayer = m_tmx->layerNamed("trap");
+	coinLayer = m_tmx->layerNamed("coin");
+	flagpoleLayer = m_tmx->layerNamed("flagpole");
+	objectLayer = m_tmx->objectGroupNamed("objects");
+	
 	//设置地图的锚点 和位置
-	tmx->setAnchorPoint(Vec2::ZERO);
-	int height = m_mapSize.height * m_titleSize.height;
+	m_tmx->setAnchorPoint(Vec2::ZERO);
 	Size winSize = Director::getInstance()->getWinSize();
-	tmx->setPosition(Vec2(0, winSize.height - height));	
+	m_tmx->setPosition(Vec2(0, winSize.height - m_totalMapSize.height));
+
+	//解析对象层
+	this->initObjects();
 }
+
+
+
 
 /**
 解析tmx的地图的一些object属性
@@ -56,39 +75,21 @@ void MapSprite::initObjects()
 {
 	ValueVector tempArray = objectLayer->getObjects();
 
-	float x, y, w, h;
+	
 	Value objPointMap;
 	for each(objPointMap in tempArray)
 	{
 		ValueMap objPoint = objPointMap.asValueMap();
 		int width = objPoint.at("width").asFloat();
 		int height = objPoint.at("height").asFloat();
-		//std::string type = objPoint.at("type").asString();
 		int posX = objPoint.at("x").asFloat();
 		int posY = objPoint.at("y").asFloat();
 		posY -= this->m_titleSize.height;
 		Point tileXY = this->positionToTileCoord(ccp(posX, posY));
+		const std::string name = objPoint.at("name").asString();
+		const std::string type = objPoint.at("type").asString();
 
-		int type = objPoint.at("type").asFloat();
-		int name = objPoint.at("name").asFloat();
-	}
-		//CCLOG("%s", objPoint["name"].getType());
-		//std::string name;
 
-		
-		//objPoint = NULL;
-		/**
-		std::string type = NULL;
-		vc = objPoint.at("type");
-		if (vc.isNull()){
-		}
-		else
-		{
-			//type = objPoint.at("type").asString();
-		}
-		**/
-
-		/**
 		if (name == "others")
 		{
 			if (type == "BirthPoint")
@@ -97,22 +98,34 @@ void MapSprite::initObjects()
 				marioBirthPos = this->tilecoordToPosition(tileXY);
 				marioBirthPos.x += this->m_titleSize.width / 2;
 			}
-			else if (type == "flagpoint")
-			{
-				//flagPoint = ccp(posX, posY);
-			}
-			else if (type == "finalpoint")
-			{
-				//finalPoint = ccp(posX, posY);
-			}
-			else if (type == "bridgestartpos")
-			{
-				//bridgeTileStartPos = tileXY;
-			}
 		}
-		**/
+	}
 }
 
+
+
+
+
+
+
+
+
+
+
+
+Point MapSprite::positionToTileCoord(Point pos)
+{
+	int x = pos.x / this->m_titleSize.width;
+	int y = (this->m_mapSize.height - 1) - pos.y / this->m_titleSize.height;
+	return ccp(x, y);
+}
+//tile格子坐标转化成地图坐标
+Point MapSprite::tilecoordToPosition(Point tileCoord)
+{
+	float x = tileCoord.x * this->m_titleSize.width;
+	float y = (this->m_mapSize.height - 1 - tileCoord.y) * this->m_titleSize.height + m_tmx->getPositionY();
+	return ccp(x, y);
+}
 
 
 
@@ -125,16 +138,9 @@ Point MapSprite::getMarioBirthPos()
 	return marioBirthPos;
 }
 
-Point MapSprite::positionToTileCoord(Point pos)
-{
-	int x = pos.x / this->m_titleSize.width;
-	int y = (this->m_mapSize.height - 1) - pos.y / this->m_titleSize.height;
-	return ccp(x, y);
-}
 
-Point MapSprite::tilecoordToPosition(Point tileCoord)
-{
-	float x = tileCoord.x * this->m_titleSize.width;
-	float y = (this->m_mapSize.height - 1 - tileCoord.y) * this->m_titleSize.height;
-	return ccp(x, y);
+
+
+void MapSprite::update(float dt){
+	//CCLOG("%f",dt);
 }

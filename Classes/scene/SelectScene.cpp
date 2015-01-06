@@ -158,6 +158,11 @@ void SelectScene::onTouchEnded(Touch *pTouch, Event *pEvent)
 	CCLOG("SelectScene::onTouchEnded");
 	if (pselectSprite)
 	{	
+		//删除事件
+		_eventDispatcher->removeAllEventListeners();
+
+
+		//进入新的场景
 		std::string name = pselectSprite->getName();
 		char c= name[2];
 		int lv=atoi(&c);
@@ -202,6 +207,7 @@ bool SelectScene::onTouchBegan(Touch *pTouch, Event *pEvent)
 void SelectScene::onExit()
 {
 	CCLOG("SelectScene::onExit()");
-	_eventDispatcher->removeAllEventListeners();
+	//_eventDispatcher->removeEventListenersForTarget(this);
+	//_eventDispatcher->removeAllEventListeners();
 	Layer::onExit();
 }

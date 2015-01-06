@@ -11,6 +11,7 @@ class MapSprite
 public:
 	MapSprite();
 	~MapSprite();
+
 	void init();
 	TMXTiledMap* getTMXMap();
 
@@ -19,6 +20,8 @@ public:
 	Point marioBirthPos;
 	Point getMarioBirthPos();
 
+
+	void update(float dt);
 private:
 	TMXTiledMap* m_tmx;
 	TMXLayer*  cloudLayer;
@@ -31,9 +34,12 @@ private:
 	TMXLayer*  flagpoleLayer;
 	
 
+	//地图和格子的宽高度
 	Size m_mapSize;
 	Size m_titleSize;
+	Size m_totalMapSize;//地图的实际宽高度 其实就是m_mapSize * m_titleSize
 
+	
 	void initObjects();
 	// 游戏图层坐标系与tilemap图块坐标系之间的转换
 	Point positionToTileCoord(Point pos);

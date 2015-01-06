@@ -17,8 +17,8 @@ public:
 	static enum hero_state{
 		stand_l,
 		stand_r,
-		right,
-		up,
+		move_right,
+		move_up,
 	};
 
 public:
@@ -28,8 +28,9 @@ public:
 	bool  init();
 	void setHeroState(int state);
 	static HeroSprite* create();
+	int HeroSprite::getHeroState();
 
-
+	void update(float dt);
 
 
 private:

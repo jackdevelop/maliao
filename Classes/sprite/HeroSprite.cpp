@@ -1,6 +1,6 @@
 
 #include "sprite/HeroSprite.h"
-
+#include "manager/AnimationManger.h"
 
 
 
@@ -62,6 +62,8 @@ bool  HeroSprite::init(){
 	this->addChild(mainBody);
 	this->setHeroState(stand_r);
 	
+
+	this->scheduleUpdate();
 	return true;
 }
 
@@ -86,9 +88,32 @@ void HeroSprite::setHeroState(int state){
 		case	stand_l:
 			mainBody->setDisplayFrame(m_smallLeft);
 			break;
+		case move_right:
+			mainBody->runAction(RepeatForever::create(
+				AnimationManager::getInstance()->createAnimate(eAniRightSmall)));
+			break;
 		default:
 			break;
 	}
 
 	m_crrentState = state;
+}
+int HeroSprite::getHeroState(){
+	return m_crrentState;
+}
+
+
+
+
+//¸üÐÂtick
+void HeroSprite::update(float dt){
+	switch (m_crrentState)
+	{
+	case move_right:
+		int x = this->getPositionX();
+		int y = this->getPositionY();
+		this->setPositionX(x + 1);
+		break;
+
+	}
 }

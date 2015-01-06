@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="228" height="14" tilewidth="16" tileheight="16">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="228" height="14" tilewidth="16" tileheight="16" nextobjectid="28">
  <tileset firstgid="1" name="superMarioMap" tilewidth="16" tileheight="16" spacing="1" margin="1">
   <image source="superMarioMap.png" width="511" height="511"/>
   <tile id="0">
@@ -117,37 +117,34 @@
    eJzt1DEKwCAMQFHp/Vfv69DFQYIJtA6+B05u4SetAQAAAJzXn/cBZ817aCfv4xZTFbWjqzy3mKqoHV3lreZkduyI2tEV/CfareofAAAAfG0AVdIOwA==
   </data>
  </layer>
- <objectgroup name="objects" width="228" height="14">
-  <object name="enemy" type="mushroom" x="648" y="176"/>
-  <object name="enemy" type="mushroom" x="824" y="176"/>
-  <object name="enemy" type="mushroom" x="848" y="176"/>
-  <object name="enemy" type="mushroom" x="1560" y="176"/>
-  <object name="enemy" type="mushroom" x="1584" y="176"/>
-  <object name="enemy" type="mushroom" x="1832" y="176"/>
-  <object name="enemy" type="mushroom" x="1856" y="176"/>
-  <object name="enemy" type="mushroom" x="1992" y="176"/>
-  <object name="enemy" type="mushroom" x="2016" y="176"/>
-  <object name="enemy" type="mushroom" x="2056" y="176"/>
-  <object name="enemy" type="mushroom" x="2080" y="176"/>
-  <object name="enemy" type="mushroom" x="2792" y="176"/>
-  <object name="enemy" type="mushroom" x="2816" y="176"/>
-  <object name="enemy" type="tortoise" x="1720" y="176"/>
-  <object name="enemy" type="mushroom" x="1288" y="48"/>
-  <object name="enemy" type="mushroom" x="1320" y="48"/>
-  <object name="enemy" type="flower" x="752" y="112"/>
-  <object x="336" y="128"/>
-  <object x="336" y="128"/>
-  <object x="336" y="128"/>
-  <object name="mushroom" type="MushroomReward" x="336" y="128">
+ <objectgroup name="objects">
+  <object id="1" name="enemy" type="mushroom" x="648" y="176"/>
+  <object id="2" name="enemy" type="mushroom" x="824" y="176"/>
+  <object id="3" name="enemy" type="mushroom" x="848" y="176"/>
+  <object id="4" name="enemy" type="mushroom" x="1560" y="176"/>
+  <object id="5" name="enemy" type="mushroom" x="1584" y="176"/>
+  <object id="6" name="enemy" type="mushroom" x="1832" y="176"/>
+  <object id="7" name="enemy" type="mushroom" x="1856" y="176"/>
+  <object id="8" name="enemy" type="mushroom" x="1992" y="176"/>
+  <object id="9" name="enemy" type="mushroom" x="2016" y="176"/>
+  <object id="10" name="enemy" type="mushroom" x="2056" y="176"/>
+  <object id="11" name="enemy" type="mushroom" x="2080" y="176"/>
+  <object id="12" name="enemy" type="mushroom" x="2792" y="176"/>
+  <object id="13" name="enemy" type="mushroom" x="2816" y="176"/>
+  <object id="14" name="enemy" type="tortoise" x="1720" y="176"/>
+  <object id="15" name="enemy" type="mushroom" x="1288" y="48"/>
+  <object id="16" name="enemy" type="mushroom" x="1320" y="48"/>
+  <object id="17" name="enemy" type="flower" x="752" y="112"/>
+  <object id="21" name="mushroom" type="MushroomReward" x="336" y="128">
    <properties>
     <property name="isMushroomReward" value="1"/>
    </properties>
   </object>
-  <object name="mushroom" type="MushroomAddLife" x="1040" y="128"/>
-  <object name="others" type="BirthPoint" x="32" y="176"/>
-  <object name="mushroom" type="MushroomReward" x="1248" y="128"/>
-  <object name="others" type="flagpoint" x="3392" y="32"/>
-  <object name="others" type="finalpoint" x="3528" y="176"/>
-  <object name="enemy" type="mushroom" x="384" y="176"/>
+  <object id="22" name="mushroom" type="MushroomAddLife" x="1040" y="128"/>
+  <object id="23" name="others" type="BirthPoint" x="32" y="176"/>
+  <object id="24" name="mushroom" type="MushroomReward" x="1248" y="128"/>
+  <object id="25" name="others" type="flagpoint" x="3392" y="32"/>
+  <object id="26" name="others" type="finalpoint" x="3528" y="176"/>
+  <object id="27" name="enemy" type="mushroom" x="384" y="176"/>
  </objectgroup>
 </map>
